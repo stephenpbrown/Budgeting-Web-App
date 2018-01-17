@@ -46,3 +46,45 @@ This budgeting web app is an online tool designed to help users create and manag
 # Pop-up Window Specifications
 **This section describes the kinds of pop-up windows we expect to implement, when they pop up, their purpose, their features, and their functions.**
 
+# Database Schema
+| Users          | Data Type | Key |       
+| -------------- | --------- | --- |
+| ID | Int | PK |
+| Email | String | |
+| Password | String **_Hashed_** | |
+| DateCreated | Date | | 
+| BudgetCount | Int | |
+
+| Budget         | Data Type | Key |
+| -------------- | --------- | --- |
+| BudgetID | Int | PK |
+| UserID | Int | FK |
+| DateCreated | Date | |
+| BudgetMonth | Date | |
+
+| MainCategory          | Data Type | Key |
+| --------------------- | -------- | --- |
+| ID | Int | PK | 
+| BudgetID | Int | FK |
+| Name | String | |
+| Allotment | Money | |
+| Actual | Money | |
+
+| SubCategory          | Data Type | Key |
+| -------------------- | --------- | --- |
+| ID | Int | PK | 
+| MainCategoryID | Int | FK |
+| Name | String | |
+| Allotment | Money | |
+| Actual | Money | |
+
+| Expense          | Data Type | Key |
+| ---------------- | --------- | --- |
+| ID | Int | PK | 
+| MainCategoryID | Nullable Int | FK |
+| SubCategoryID | Nullable Int | FK |
+| Name | String | |
+| Cost | Money | |
+| Description | String | |
+
+
