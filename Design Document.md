@@ -49,11 +49,13 @@ This budgeting web app is an online tool designed to help users create and manag
 # Database Schema
 | Users          | Data Type | Key |       
 | -------------- | --------- | --- |
-| ID | Int | PK |
-| Email | String | |
-| Password | String **_Hashed_** | |
+| ID | nvarchar(128) | PK |
+| Email | nvarchar(256) | |
+| EmailConfirmed | bit | |
+| PasswordHash | nvarchar(MAX) | |
 | DateCreated | Date | | 
 | BudgetCount | Int | |
+| UserName | nvarchar(256) | |
 
 | Budget         | Data Type | Key |
 | -------------- | --------- | --- |
