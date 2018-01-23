@@ -238,10 +238,11 @@ Backup*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 
+# TEMPORARILY PUSH UP SQL FILES
 # SQL Server files
-*.mdf
-*.ldf
-*.ndf
+#*.mdf
+#*.ldf
+#*.ndf
 
 # Business Intelligence projects
 *.rdl.data
