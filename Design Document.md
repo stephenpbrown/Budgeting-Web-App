@@ -49,7 +49,7 @@ This budgeting web app is an online tool designed to help users create and manag
 # Database Schema
 | Users          | Data Type | Key |       
 | -------------- | --------- | --- |
-| ID | Int | PK |
+| ID | String | PK |
 | Email | String | |
 | Password | String **_Hashed_** | |
 | DateCreated | Date | | 
