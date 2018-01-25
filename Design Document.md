@@ -58,7 +58,7 @@ This budgeting web app is an online tool designed to help users create and manag
 | Budget         | Data Type | Key |
 | -------------- | --------- | --- |
 | BudgetID | Int | PK |
-| UserID | Int | FK |
+| UserID | String | FK |
 | DateCreated | Date | |
 | BudgetMonth | Date | |
 
