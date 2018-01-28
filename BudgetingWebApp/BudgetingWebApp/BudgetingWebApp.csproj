@@ -249,9 +249,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BudgetController.cs" />
+    <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainCategoryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SubCategoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -291,14 +293,28 @@
     <Compile Include="Migrations\201801242234306_FixingBudgetModel.Designer.cs">
       <DependentUpon>201801242234306_FixingBudgetModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801242320425_BudgetModelUpdate.cs" />
+    <Compile Include="Migrations\201801242320425_BudgetModelUpdate.Designer.cs">
+      <DependentUpon>201801242320425_BudgetModelUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801260029174_SubCategoryModel.cs" />
+    <Compile Include="Migrations\201801260029174_SubCategoryModel.Designer.cs">
+      <DependentUpon>201801260029174_SubCategoryModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801280659082_ExpenseModel.cs" />
+    <Compile Include="Migrations\201801280659082_ExpenseModel.Designer.cs">
+      <DependentUpon>201801280659082_ExpenseModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BudgetingWebAppContext.cs" />
     <Compile Include="Models\BudgetModel.cs" />
     <Compile Include="Models\EmailFormModel.cs" />
+    <Compile Include="Models\ExpenseModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MainCategoryModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SubCategoryModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -372,6 +388,16 @@
     <Content Include="Views\MainCategory\Details.cshtml" />
     <Content Include="Views\MainCategory\Edit.cshtml" />
     <Content Include="Views\MainCategory\Index.cshtml" />
+    <Content Include="Views\SubCategory\Create.cshtml" />
+    <Content Include="Views\SubCategory\Delete.cshtml" />
+    <Content Include="Views\SubCategory\Details.cshtml" />
+    <Content Include="Views\SubCategory\Edit.cshtml" />
+    <Content Include="Views\SubCategory\Index.cshtml" />
+    <Content Include="Views\Expenses\Create.cshtml" />
+    <Content Include="Views\Expenses\Delete.cshtml" />
+    <Content Include="Views\Expenses\Details.cshtml" />
+    <Content Include="Views\Expenses\Edit.cshtml" />
+    <Content Include="Views\Expenses\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -416,6 +442,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801242234306_FixingBudgetModel.resx">
       <DependentUpon>201801242234306_FixingBudgetModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801242320425_BudgetModelUpdate.resx">
+      <DependentUpon>201801242320425_BudgetModelUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801260029174_SubCategoryModel.resx">
+      <DependentUpon>201801260029174_SubCategoryModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801280659082_ExpenseModel.resx">
+      <DependentUpon>201801280659082_ExpenseModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

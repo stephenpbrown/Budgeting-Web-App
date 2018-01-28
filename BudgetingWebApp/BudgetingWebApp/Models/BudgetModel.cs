@@ -24,6 +24,6 @@ namespace BudgetingWebApp.Models
 
         [DisplayName("Budget Month")]
         [DataType(DataType.Date)]
-        public DateTime BudgetMonth { get; set; }
+        public string BudgetMonth { get; set; }
     }
 }

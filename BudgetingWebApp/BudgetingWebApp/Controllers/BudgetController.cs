@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using BudgetingWebApp.Models;
 using Microsoft.AspNet.Identity;
+using System.Globalization;
 
 namespace BudgetingWebApp.Controllers
 {
@@ -52,8 +53,9 @@ namespace BudgetingWebApp.Controllers
             if (ModelState.IsValid)
             {
                 budgetModel.DateCreated = DateTime.Now.Date;
-                budgetModel.BudgetMonth = DateTime.Now.Date;
-
+                //budgetModel.BudgetMonth = DateTime.Now.ToString("MMMM", new CultureInfo("en-GB"));
+                DateTime inputedBudgetDate = DateTime.Parse(budgetModel.BudgetMonth);
+                budgetModel.BudgetMonth = inputedBudgetDate.ToString("MMMM", new CultureInfo("en-GB")) + " " + inputedBudgetDate.Year;
                 budgetModel.UserID = User.Identity.GetUserId();
                 db.BudgetModels.Add(budgetModel);
                 db.SaveChanges();

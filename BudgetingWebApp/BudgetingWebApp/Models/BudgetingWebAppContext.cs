@@ -23,5 +23,9 @@ namespace BudgetingWebApp.Models
         public System.Data.Entity.DbSet<BudgetingWebApp.Models.BudgetModel> BudgetModels { get; set; }
 
         public System.Data.Entity.DbSet<BudgetingWebApp.Models.MainCategoryModel> MainCategoryModels { get; set; }
+
+        public System.Data.Entity.DbSet<BudgetingWebApp.Models.SubCategoryModel> SubCategoryModels { get; set; }
+
+        public System.Data.Entity.DbSet<BudgetingWebApp.Models.ExpenseModel> ExpenseModels { get; set; }
     }
 }
