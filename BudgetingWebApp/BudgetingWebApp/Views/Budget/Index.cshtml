@@ -1,19 +1,19 @@
 ﻿@model IEnumerable<BudgetingWebApp.Models.BudgetModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Budgets";
 }
 
-<h2>Index</h2>
+<h2>Budgets</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
-        @*<th>
-            @Html.DisplayNameFor(model => model.UserID)
-        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.BudgetID)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.DateCreated)
         </th>
@@ -25,9 +25,9 @@
 
 @foreach (var item in Model) {
     <tr>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.UserID)
-        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.BudgetID)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateCreated)
         </td>
@@ -35,9 +35,18 @@
             @Html.DisplayFor(modelItem => item.BudgetMonth)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Index", "MainCategory") |
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.BudgetID }) |*@
-            @Html.ActionLink("Details", "Details", new { id=item.BudgetID }) |
+            @*@Html.ActionLink(
+                linkText: "Edit",
+                actionName: "Index",
+                controllerName: "MainCategory",
+                routeValues: new
+                {
+                    id = item.BudgetID
+                },
+                htmlAttributes: null
+            ) |*@
+            @Html.ActionLink("Edit", "Edit", new { id=item.BudgetID }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.BudgetID }) |*@
             @Html.ActionLink("Delete", "Delete", new { id=item.BudgetID })
         </td>
     </tr>

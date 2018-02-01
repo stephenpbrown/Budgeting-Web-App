@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BudgetingWebApp.Models;
+using BudgetingWebApp.ViewModels;
 using Microsoft.AspNet.Identity;
 using System.Globalization;
 
@@ -29,11 +30,22 @@ namespace BudgetingWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BudgetModel budgetModel = db.BudgetModels.Find(id);
+            //BudgetModel budgetModel = db.BudgetModels.Find(id);
+            string userID = User.Identity.GetUserId();
+            var budgetModel = from a in db.BudgetModels
+                              where a.UserID == userID
+                              select a;
+            //MainCategoryModel mainCategoryModel = db.MainCategoryModels.Find(id);
             if (budgetModel == null)
             {
                 return HttpNotFound();
             }
+            //var viewModel = new MainViewModel
+            //{
+            //    Budget = budgetModel,
+            //    MainCategory = mainCategoryModel
+            //};
+
             return View(budgetModel);
         }
 
@@ -73,11 +85,22 @@ namespace BudgetingWebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             BudgetModel budgetModel = db.BudgetModels.Find(id);
+            //MainCategoryModel mainCategoryModel = db.MainCategoryModels.Find(id);
+            var mainCategoryModel = from a in db.MainCategoryModels
+                                                  where a.BudgetID == id
+                                                  select a;
             if (budgetModel == null)
             {
                 return HttpNotFound();
             }
-            return View(budgetModel);
+
+            var viewModel = new MainViewModel
+            {
+                Budget = budgetModel,
+                MainCategory = mainCategoryModel
+            };
+
+            return View(viewModel);
         }
 
         // POST: BudgetModels/Edit/5
@@ -85,15 +108,15 @@ namespace BudgetingWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BudgetID,UserID,DateCreated,BudgetMonth")] BudgetModel budgetModel)
+        public ActionResult Edit([Bind(Include = "BudgetID,UserID,DateCreated,BudgetMonth")] MainViewModel mainViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(budgetModel).State = EntityState.Modified;
+                db.Entry(mainViewModel.Budget).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(budgetModel);
+            return View(mainViewModel);
         }
 
         // GET: BudgetModels/Delete/5

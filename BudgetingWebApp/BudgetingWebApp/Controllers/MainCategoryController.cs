@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BudgetingWebApp.Models;
+using BudgetingWebApp.ViewModels;
+using System.Collections;
 
 namespace BudgetingWebApp.Controllers
 {
@@ -28,15 +30,17 @@ namespace BudgetingWebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             MainCategoryModel mainCategoryModel = db.MainCategoryModels.Find(id);
+
             if (mainCategoryModel == null)
             {
                 return HttpNotFound();
             }
+            //budgetID = (int)id;
             return View(mainCategoryModel);
         }
 
         // GET: MainCategory/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             return View();
         }
@@ -46,16 +50,35 @@ namespace BudgetingWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MainCategoryID")] MainCategoryModel mainCategoryModel)
+        public ActionResult Create([Bind(Include = "Name, Allotment")] MainCategoryModel mainCategoryModel)
         {
             if (ModelState.IsValid)
             {
+                string budgetIDStr = RouteData.Values["id"].ToString();
+                int budgetID = Int32.Parse(budgetIDStr);
+                mainCategoryModel.BudgetID = budgetID;
                 db.MainCategoryModels.Add(mainCategoryModel);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                var mainViewModel = BuildMainViewModel(budgetID);
+                return View("~/Views/Budget/Edit.cshtml", mainViewModel);
             }
 
-            return View(mainCategoryModel);
+            return View("~/Views/Budget/Index.cshtml", mainCategoryModel);
+        }
+
+        public MainViewModel BuildMainViewModel(int budgetID)
+        {
+            var budgetModel = db.BudgetModels.Find(budgetID);
+            var mainCategoryModel = from a in db.MainCategoryModels where a.BudgetID == budgetID select a;
+
+            var mainViewModel = new MainViewModel
+            {
+                Budget = budgetModel,
+                MainCategory = mainCategoryModel
+            };
+
+            return mainViewModel;
         }
 
         // GET: MainCategory/Edit/5
@@ -90,7 +113,7 @@ namespace BudgetingWebApp.Controllers
         }
 
         // GET: MainCategory/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, int? budgetID)
         {
             if (id == null)
             {
@@ -107,12 +130,16 @@ namespace BudgetingWebApp.Controllers
         // POST: MainCategory/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int budgetID)
         {
             MainCategoryModel mainCategoryModel = db.MainCategoryModels.Find(id);
             db.MainCategoryModels.Remove(mainCategoryModel);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            var mainViewModel = BuildMainViewModel(budgetID);
+
+            //return RedirectToAction("Index");
+            return View("~/Views/Budget/Edit.cshtml", mainViewModel);
         }
 
         protected override void Dispose(bool disposing)

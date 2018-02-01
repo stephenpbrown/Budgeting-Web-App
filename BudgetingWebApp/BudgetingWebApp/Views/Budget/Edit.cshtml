@@ -1,56 +1,52 @@
-﻿@model BudgetingWebApp.Models.BudgetModel
+﻿@*@model BudgetingWebApp.Models.BudgetModel*@
+@model BudgetingWebApp.ViewModels.MainViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = Model.Budget.BudgetMonth;
+    int budgetID = Model.Budget.BudgetID;
 }
 
-<h2>Edit</h2>
+<h2>@Model.Budget.BudgetMonth</h2>
 
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>BudgetModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.BudgetID)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateCreated, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateCreated, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.BudgetMonth, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BudgetMonth, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BudgetMonth, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
+<p>
+    @Html.ActionLink("Create New Category", "Create", "MainCategory", new { id = budgetID }, null)
+</p>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Allotment
+            </th>
+            <th>
+                Actual
+            </th>
+        </tr>
+        @foreach (var item in Model.MainCategory)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Allotment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Actual)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", "MainCategory", new { id = item.MainCategoryID, budgetID = budgetID }, null)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Budget")
 </div>
 
 @section Scripts {
