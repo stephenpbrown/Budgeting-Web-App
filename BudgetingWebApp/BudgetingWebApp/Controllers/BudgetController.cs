@@ -18,9 +18,14 @@ namespace BudgetingWebApp.Controllers
         private BudgetingWebAppContext db = new BudgetingWebAppContext();
 
         // GET: BudgetModels
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View(db.BudgetModels.ToList());
+            string userID = User.Identity.GetUserId();
+            var budgetModel = from a in db.BudgetModels
+                              where a.UserID == userID
+                              select a;
+
+            return View(budgetModel.ToList());
         }
 
         // GET: BudgetModels/Details/5
@@ -50,8 +55,10 @@ namespace BudgetingWebApp.Controllers
         }
 
         // GET: BudgetModels/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
+
+
             return View();
         }
 
@@ -85,7 +92,6 @@ namespace BudgetingWebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             BudgetModel budgetModel = db.BudgetModels.Find(id);
-            //MainCategoryModel mainCategoryModel = db.MainCategoryModels.Find(id);
             var mainCategoryModel = from a in db.MainCategoryModels
                                                   where a.BudgetID == id
                                                   select a;
@@ -101,6 +107,26 @@ namespace BudgetingWebApp.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public ActionResult MainView(int? budgetID)
+        {
+            var mainViewModel = BuildMainViewModel((int)budgetID);
+            return View("~/Views/Budget/Edit.cshtml", mainViewModel);
+        }
+
+        public MainViewModel BuildMainViewModel(int budgetID)
+        {
+            var budgetModel = db.BudgetModels.Find(budgetID);
+            var mainCategoryModel = from a in db.MainCategoryModels where a.BudgetID == budgetID select a;
+
+            var mainViewModel = new MainViewModel
+            {
+                Budget = budgetModel,
+                MainCategory = mainCategoryModel
+            };
+
+            return mainViewModel;
         }
 
         // POST: BudgetModels/Edit/5
