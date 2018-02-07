@@ -92,9 +92,12 @@ namespace BudgetingWebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             BudgetModel budgetModel = db.BudgetModels.Find(id);
-            var mainCategoryModel = from a in db.MainCategoryModels
+            var mainCategoryModel = (from a in db.MainCategoryModels
                                                   where a.BudgetID == id
-                                                  select a;
+                                                  select a).ToList();
+            var subCategoryModel = (from a in db.SubCategoryModels
+                                                  where a.BudgetID == id
+                                                  select a).ToList();
             if (budgetModel == null)
             {
                 return HttpNotFound();
@@ -103,7 +106,8 @@ namespace BudgetingWebApp.Controllers
             var viewModel = new MainViewModel
             {
                 Budget = budgetModel,
-                MainCategory = mainCategoryModel
+                MainCategory = mainCategoryModel,
+                SubCategory = subCategoryModel
             };
 
             return View(viewModel);
@@ -118,12 +122,14 @@ namespace BudgetingWebApp.Controllers
         public MainViewModel BuildMainViewModel(int budgetID)
         {
             var budgetModel = db.BudgetModels.Find(budgetID);
-            var mainCategoryModel = from a in db.MainCategoryModels where a.BudgetID == budgetID select a;
+            var mainCategoryModel = (from a in db.MainCategoryModels where a.BudgetID == budgetID select a).ToList();
+            var subCategoryModel = (from a in db.SubCategoryModels where a.BudgetID == budgetID select a).ToList();
 
             var mainViewModel = new MainViewModel
             {
                 Budget = budgetModel,
-                MainCategory = mainCategoryModel
+                MainCategory = mainCategoryModel,
+                SubCategory = subCategoryModel
             };
 
             return mainViewModel;

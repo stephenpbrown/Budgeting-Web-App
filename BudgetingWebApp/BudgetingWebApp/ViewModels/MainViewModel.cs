@@ -10,7 +10,7 @@ namespace BudgetingWebApp.ViewModels
     {
         public BudgetModel Budget { get; set; }
         public IEnumerable<MainCategoryModel> MainCategory { get; set; }
-        //public List<SubCategoryModel> SubCategory { get; set; }
+        public IEnumerable<SubCategoryModel> SubCategory { get; set; }
         //public List<ExpenseModel> Expense { get; set; }
     }
 }

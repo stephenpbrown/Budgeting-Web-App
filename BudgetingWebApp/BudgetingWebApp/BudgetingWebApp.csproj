@@ -305,6 +305,10 @@
     <Compile Include="Migrations\201801280659082_ExpenseModel.Designer.cs">
       <DependentUpon>201801280659082_ExpenseModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802070346324_SubCategoryModel1.cs" />
+    <Compile Include="Migrations\201802070346324_SubCategoryModel1.Designer.cs">
+      <DependentUpon>201802070346324_SubCategoryModel1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BudgetingWebAppContext.cs" />
@@ -454,6 +458,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801280659082_ExpenseModel.resx">
       <DependentUpon>201801280659082_ExpenseModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802070346324_SubCategoryModel1.resx">
+      <DependentUpon>201802070346324_SubCategoryModel1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

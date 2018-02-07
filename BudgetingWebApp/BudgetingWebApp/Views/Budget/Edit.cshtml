@@ -1,5 +1,4 @@
-﻿@*@model BudgetingWebApp.Models.BudgetModel*@
-@model BudgetingWebApp.ViewModels.MainViewModel
+﻿@model BudgetingWebApp.ViewModels.MainViewModel
 
 @{
     ViewBag.Title = Model.Budget.BudgetMonth;
@@ -8,46 +7,93 @@
 
 <h2>@Model.Budget.BudgetMonth</h2>
 
+<style type="text/css">
+    table {
+        width: 700px;
+        border: double;
+    }
+
+    th {
+        width: 100px;
+    }
+
+    td {
+        border: double;
+        width: 100px;
+    }
+
+    input {
+        width: 100px;
+    }
+</style>
+
+<script src="~/Scripts/jquery-2.0.0.min.js"></script>
+<script src="~/Scripts/knockout-2.2.1.js"></script>
+
 <p>
     @Html.ActionLink("Create New Category", "Create", "MainCategory", new { id = budgetID }, null)
 </p>
 
 <div>
-    <table class="table">
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Allotment
-            </th>
-            <th>
-                Actual
-            </th>
-        </tr>
-        @foreach (var item in Model.MainCategory)
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Allotment
+                </th>
+                <th>
+                    Actual
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (var MC in Model.MainCategory)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => MC.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Allotment)
+                    @Html.DisplayFor(modelItem => MC.Allotment)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Actual)
+                    @Html.DisplayFor(modelItem => MC.Actual)
                 </td>
                 <td>
-                    @Html.ActionLink("Delete", "Delete", "MainCategory", new { id = item.MainCategoryID, budgetID = budgetID }, null) |
-                    @Html.ActionLink("+", "Create", "SubCategory", new { id = item.MainCategoryID }, null)
+                    @Html.ActionLink("Create Sub-Category", "Create", "SubCategory", new { id = MC.MainCategoryID, budgetID = budgetID, mainCategoryName = Html.DisplayFor(modelItem => MC.Name) }, null) |
+                    @Html.ActionLink("Delete", "Delete", "MainCategory", new { id = MC.MainCategoryID, budgetID = budgetID }, null)
                 </td>
             </tr>
+            foreach(var SC in Model.SubCategory)
+            {
+                if (SC.MainCategoryID == MC.MainCategoryID)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => SC.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => SC.Allotment)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => SC.Allotment)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "Delete", "SubCategory", new { id = SC.SubCategoryID, budgetID = budgetID }, null)
+                        </td>
+                    </tr>
+                }
+            }
         }
     </table>
 </div>
 
+
 <div>
-    @Html.ActionLink("Back to List", "Index", "Budget", new { id = budgetID }, null)
+    @Html.ActionLink("Back to Budgets List", "Index", "Budget", new { id = budgetID }, null)
 </div>
 
 @section Scripts {

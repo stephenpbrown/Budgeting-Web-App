@@ -70,12 +70,14 @@ namespace BudgetingWebApp.Controllers
         public MainViewModel BuildMainViewModel(int budgetID)
         {
             var budgetModel = db.BudgetModels.Find(budgetID);
-            var mainCategoryModel = from a in db.MainCategoryModels where a.BudgetID == budgetID select a;
+            var mainCategoryModel = (from a in db.MainCategoryModels where a.BudgetID == budgetID select a).ToList();
+            var subCategoryModel = (from a in db.SubCategoryModels where a.BudgetID == budgetID select a).ToList();
 
             var mainViewModel = new MainViewModel
             {
                 Budget = budgetModel,
-                MainCategory = mainCategoryModel
+                MainCategory = mainCategoryModel,
+                SubCategory = subCategoryModel
             };
 
             return mainViewModel;

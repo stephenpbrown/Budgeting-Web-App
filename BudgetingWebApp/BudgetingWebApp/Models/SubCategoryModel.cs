@@ -11,6 +11,7 @@ namespace BudgetingWebApp.Models
         [Key]
         public int SubCategoryID { get; set; }
         public int MainCategoryID { get; set; }
+        public int BudgetID { get; set; }
         public string Name { get; set; }
         public decimal Allotment { get; set; }
         public decimal Actual { get; set; }
