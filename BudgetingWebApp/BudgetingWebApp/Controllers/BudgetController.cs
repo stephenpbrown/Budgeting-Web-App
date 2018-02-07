@@ -57,8 +57,6 @@ namespace BudgetingWebApp.Controllers
         // GET: BudgetModels/Create
         public ActionResult Create(int? id)
         {
-
-
             return View();
         }
 
@@ -72,7 +70,6 @@ namespace BudgetingWebApp.Controllers
             if (ModelState.IsValid)
             {
                 budgetModel.DateCreated = DateTime.Now.Date;
-                //budgetModel.BudgetMonth = DateTime.Now.ToString("MMMM", new CultureInfo("en-GB"));
                 DateTime inputedBudgetDate = DateTime.Parse(budgetModel.BudgetMonth);
                 budgetModel.BudgetMonth = inputedBudgetDate.ToString("MMMM", new CultureInfo("en-GB")) + " " + inputedBudgetDate.Year;
                 budgetModel.UserID = User.Identity.GetUserId();
@@ -111,12 +108,6 @@ namespace BudgetingWebApp.Controllers
             };
 
             return View(viewModel);
-        }
-
-        public ActionResult MainView(int? budgetID)
-        {
-            var mainViewModel = BuildMainViewModel((int)budgetID);
-            return View("~/Views/Budget/Edit.cshtml", mainViewModel);
         }
 
         public MainViewModel BuildMainViewModel(int budgetID)
@@ -171,8 +162,28 @@ namespace BudgetingWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Remove the budget
             BudgetModel budgetModel = db.BudgetModels.Find(id);
             db.BudgetModels.Remove(budgetModel);
+
+            // Removes the categories associated with the budget
+            IEnumerable<MainCategoryModel> mainCategoryModel = (from a in db.MainCategoryModels
+                                                  where a.BudgetID == id
+                                                  select a).ToList();
+            foreach(var model in mainCategoryModel)
+            {
+                db.MainCategoryModels.Remove(model);
+            }
+
+            // Removes the sub categories associated with the budget
+            IEnumerable<SubCategoryModel> subCategoryModel = (from a in db.SubCategoryModels
+                                                                where a.BudgetID == id
+                                                                select a).ToList();
+            foreach (var model in subCategoryModel)
+            {
+                db.SubCategoryModels.Remove(model);
+            }
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }

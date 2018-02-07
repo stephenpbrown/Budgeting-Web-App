@@ -59,9 +59,7 @@ namespace BudgetingWebApp.Controllers
                 db.SubCategoryModels.Add(subCategoryModel);
                 db.SaveChanges();
 
-               // int budgetID = ViewBag.budgetID;
-                var mainViewModel = BuildMainViewModel(budgetID);
-                return View("~/Views/Budget/Edit.cshtml", mainViewModel);
+                return RedirectToAction("Edit", "Budget", new { id = budgetID });
             }
 
             return View(subCategoryModel);
@@ -138,9 +136,7 @@ namespace BudgetingWebApp.Controllers
             db.SubCategoryModels.Remove(subCategoryModel);
             db.SaveChanges();
 
-            var mainViewModel = BuildMainViewModel(budgetID);
-
-            return View("~/Views/Budget/Edit.cshtml", mainViewModel);
+            return RedirectToAction("Edit", "Budget", new { id = budgetID });
         }
 
         protected override void Dispose(bool disposing)

@@ -40,8 +40,14 @@ namespace BudgetingWebApp.Controllers
         }
 
         // GET: MainCategory/Create
-        public ActionResult Create(int? id)
+        public ActionResult Create(int? budgetID)
         {
+            if(budgetID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ViewBag.budgetID = budgetID;
+
             return View();
         }
 
@@ -50,21 +56,18 @@ namespace BudgetingWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name, Allotment")] MainCategoryModel mainCategoryModel)
+        public ActionResult Create([Bind(Include = "Name, Allotment")] MainCategoryModel mainCategoryModel, int budgetID)
         {
             if (ModelState.IsValid)
             {
-                string budgetIDStr = RouteData.Values["id"].ToString();
-                int budgetID = Int32.Parse(budgetIDStr);
                 mainCategoryModel.BudgetID = budgetID;
                 db.MainCategoryModels.Add(mainCategoryModel);
                 db.SaveChanges();
 
-                var mainViewModel = BuildMainViewModel(budgetID);
-                return View("~/Views/Budget/Edit.cshtml", mainViewModel);
+                return RedirectToAction("Edit", "Budget", new { id = budgetID });
             }
 
-            return View("~/Views/Budget/Index.cshtml", mainCategoryModel);
+            return RedirectToAction("Edit", "Budget", new { id = budgetID });
         }
 
         public MainViewModel BuildMainViewModel(int budgetID)
@@ -134,14 +137,22 @@ namespace BudgetingWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id, int budgetID)
         {
+            // Removes the main category
             MainCategoryModel mainCategoryModel = db.MainCategoryModels.Find(id);
             db.MainCategoryModels.Remove(mainCategoryModel);
+
+            // Removes the sub categories associated with the main categories
+            IEnumerable<SubCategoryModel> subCategoryModel = (from a in db.SubCategoryModels
+                                                              where a.MainCategoryID == id
+                                                              select a).ToList();
+            foreach (var model in subCategoryModel)
+            {
+                db.SubCategoryModels.Remove(model);
+            }
+
             db.SaveChanges();
 
-            var mainViewModel = BuildMainViewModel(budgetID);
-
-            //return RedirectToAction("Index");
-            return View("~/Views/Budget/Edit.cshtml", mainViewModel);
+            return RedirectToAction("Edit", "Budget", new { id = budgetID });
         }
 
         protected override void Dispose(bool disposing)

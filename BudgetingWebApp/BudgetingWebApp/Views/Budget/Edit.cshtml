@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = Model.Budget.BudgetMonth;
     int budgetID = Model.Budget.BudgetID;
+    string userID = Model.Budget.UserID;
 }
 
 <h2>@Model.Budget.BudgetMonth</h2>
@@ -31,11 +32,11 @@
 <script src="~/Scripts/knockout-2.2.1.js"></script>
 
 <p>
-    @Html.ActionLink("Create New Category", "Create", "MainCategory", new { id = budgetID }, null)
+    @Html.ActionLink("Create New Category", "Create", "MainCategory", new { budgetID = budgetID }, null)
 </p>
 
 <div>
-    <table>
+    <table style="width:100%">
         <thead>
             <tr>
                 <th>
@@ -62,7 +63,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => MC.Actual)
                 </td>
-                <td>
+                <td align="center">
                     @Html.ActionLink("Create Sub-Category", "Create", "SubCategory", new { id = MC.MainCategoryID, budgetID = budgetID, mainCategoryName = Html.DisplayFor(modelItem => MC.Name) }, null) |
                     @Html.ActionLink("Delete", "Delete", "MainCategory", new { id = MC.MainCategoryID, budgetID = budgetID }, null)
                 </td>
@@ -71,7 +72,8 @@
             {
                 if (SC.MainCategoryID == MC.MainCategoryID)
                 {
-                    <tr>
+                    
+                    <tr align="center">
                         <td>
                             @Html.DisplayFor(modelItem => SC.Name)
                         </td>
@@ -93,7 +95,7 @@
 
 
 <div>
-    @Html.ActionLink("Back to Budgets List", "Index", "Budget", new { id = budgetID }, null)
+    @Html.ActionLink("Back to Budgets List", "Index", "Budget", new { id = userID })
 </div>
 
 @section Scripts {
