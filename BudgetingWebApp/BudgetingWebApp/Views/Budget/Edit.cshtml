@@ -32,11 +32,11 @@
 <script type="text/javascript" src="functions.js"></script>
 
 <p>
-    @Html.ActionLink("Create New Category", "Create", "MainCategory", new { budgetID = budgetID }, null)
+    @Html.ActionLink("Create New Category", "Create", "MainCategory", new { budgetID = budgetID, budgetMonth = Model.Budget.BudgetMonth }, null)
 </p>
 
 <div>
-    <table style="width:100%">
+    <table style="width:80%">
         <thead>
             <tr>
                 <th>
@@ -64,7 +64,7 @@
                     @Html.DisplayFor(modelItem => MC.Actual)
                 </td>
                 <td align="center">
-                    @Html.ActionLink("Create Sub-Category", "Create", "SubCategory", new { id = MC.MainCategoryID, budgetID = budgetID, mainCategoryName = Html.DisplayFor(modelItem => MC.Name) }, null) |
+                    @Html.ActionLink("Create Sub-Category", "Create", "SubCategory", new { id = MC.MainCategoryID, budgetID = budgetID, mainCategoryName = MC.Name }, null) |
                     @Html.ActionLink("Delete", "Delete", "MainCategory", new { id = MC.MainCategoryID, budgetID = budgetID }, null)
                 </td>
             </tr>
@@ -92,7 +92,7 @@
         }
     </table>
 
-    <table>
+    <table style="width:auto">
         <tr>
             <th>
                 Total Allotted Amount

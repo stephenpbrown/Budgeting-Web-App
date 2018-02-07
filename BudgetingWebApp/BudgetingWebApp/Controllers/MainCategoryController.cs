@@ -40,13 +40,14 @@ namespace BudgetingWebApp.Controllers
         }
 
         // GET: MainCategory/Create
-        public ActionResult Create(int? budgetID)
+        public ActionResult Create(int? budgetID, string budgetMonth)
         {
             if(budgetID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ViewBag.budgetID = budgetID;
+            ViewBag.budgetMonth = budgetMonth;
 
             return View();
         }
