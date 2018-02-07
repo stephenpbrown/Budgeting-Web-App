@@ -50,7 +50,7 @@ namespace BudgetingWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SubCategoryID,MainCategoryID,Name,Allotment,Actual")] SubCategoryModel subCategoryModel, int id, int budgetID)
+        public ActionResult Create([Bind(Include = "Name,Allotment,Actual")] SubCategoryModel subCategoryModel, int id, int budgetID)
         {
             if (ModelState.IsValid)
             {
@@ -63,22 +63,6 @@ namespace BudgetingWebApp.Controllers
             }
 
             return View(subCategoryModel);
-        }
-
-        public MainViewModel BuildMainViewModel(int budgetID)
-        {
-            var budgetModel = db.BudgetModels.Find(budgetID);
-            var mainCategoryModel = (from a in db.MainCategoryModels where a.BudgetID == budgetID select a).ToList();
-            var subCategoryModel = (from a in db.SubCategoryModels where a.BudgetID == budgetID select a).ToList();
-
-            var mainViewModel = new MainViewModel
-            {
-                Budget = budgetModel,
-                MainCategory = mainCategoryModel,
-                SubCategory = subCategoryModel
-            };
-
-            return mainViewModel;
         }
 
         // GET: SubCategory/Edit/5

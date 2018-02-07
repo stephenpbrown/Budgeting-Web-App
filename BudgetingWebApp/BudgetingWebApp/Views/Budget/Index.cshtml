@@ -7,13 +7,10 @@
 <h2>Budgets</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Budget", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.BudgetID)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.DateCreated)
         </th>
@@ -25,9 +22,6 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.BudgetID)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateCreated)
         </td>
@@ -45,7 +39,7 @@
                 },
                 htmlAttributes: null
             ) |*@
-            @Html.ActionLink("Edit", "Edit", new { id=item.BudgetID }) |
+            @Html.ActionLink("View", "Edit", new { id=item.BudgetID }) |
             @*@Html.ActionLink("Details", "Details", new { id=item.BudgetID }) |*@
             @Html.ActionLink("Delete", "Delete", new { id=item.BudgetID })
         </td>

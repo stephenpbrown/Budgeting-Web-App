@@ -28,8 +28,8 @@
     }
 </style>
 
-<script src="~/Scripts/jquery-2.0.0.min.js"></script>
-<script src="~/Scripts/knockout-2.2.1.js"></script>
+<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="functions.js"></script>
 
 <p>
     @Html.ActionLink("Create New Category", "Create", "MainCategory", new { budgetID = budgetID }, null)
@@ -81,7 +81,7 @@
                             @Html.DisplayFor(modelItem => SC.Allotment)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => SC.Allotment)
+                            @Html.DisplayFor(modelItem => SC.Actual)
                         </td>
                         <td>
                             @Html.ActionLink("Delete", "Delete", "SubCategory", new { id = SC.SubCategoryID, budgetID = budgetID }, null)
@@ -91,11 +91,23 @@
             }
         }
     </table>
+
+    <table>
+        <tr>
+            <th>
+                Total Allotted Amount
+            </th>
+            <td>
+                @Html.DisplayFor(item => item.TotalAllotment)
+            </td>
+        </tr>
+    </table>
+
 </div>
 
 
 <div>
-    @Html.ActionLink("Back to Budgets List", "Index", "Budget", new { id = userID })
+    @Html.ActionLink("Back to the List of Budgets", "Index", "Budget", new { id = userID })
 </div>
 
 @section Scripts {

@@ -35,21 +35,16 @@ namespace BudgetingWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //BudgetModel budgetModel = db.BudgetModels.Find(id);
+
             string userID = User.Identity.GetUserId();
             var budgetModel = from a in db.BudgetModels
                               where a.UserID == userID
                               select a;
-            //MainCategoryModel mainCategoryModel = db.MainCategoryModels.Find(id);
+
             if (budgetModel == null)
             {
                 return HttpNotFound();
             }
-            //var viewModel = new MainViewModel
-            //{
-            //    Budget = budgetModel,
-            //    MainCategory = mainCategoryModel
-            //};
 
             return View(budgetModel);
         }
@@ -88,39 +83,39 @@ namespace BudgetingWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BudgetModel budgetModel = db.BudgetModels.Find(id);
-            var mainCategoryModel = (from a in db.MainCategoryModels
-                                                  where a.BudgetID == id
-                                                  select a).ToList();
-            var subCategoryModel = (from a in db.SubCategoryModels
-                                                  where a.BudgetID == id
-                                                  select a).ToList();
-            if (budgetModel == null)
-            {
-                return HttpNotFound();
-            }
 
-            var viewModel = new MainViewModel
-            {
-                Budget = budgetModel,
-                MainCategory = mainCategoryModel,
-                SubCategory = subCategoryModel
-            };
+            var viewModel = BuildMainViewModel((int)id);
 
             return View(viewModel);
         }
 
+        // Build the main view model for the main page
         public MainViewModel BuildMainViewModel(int budgetID)
         {
             var budgetModel = db.BudgetModels.Find(budgetID);
             var mainCategoryModel = (from a in db.MainCategoryModels where a.BudgetID == budgetID select a).ToList();
             var subCategoryModel = (from a in db.SubCategoryModels where a.BudgetID == budgetID select a).ToList();
+            decimal totalAllotment = 0;
+            decimal totalActual = 0;
+
+            foreach(var model in mainCategoryModel)
+            {
+                totalAllotment += model.Allotment;
+                totalActual += model.Actual;
+            }
+
+            //foreach(var model in subCategoryModel)
+            //{
+            //    totalAllotment += model.Allotment;
+            //    totalActual += model.Actual;
+            //}
 
             var mainViewModel = new MainViewModel
             {
                 Budget = budgetModel,
                 MainCategory = mainCategoryModel,
-                SubCategory = subCategoryModel
+                SubCategory = subCategoryModel,
+                TotalAllotment = totalAllotment
             };
 
             return mainViewModel;
