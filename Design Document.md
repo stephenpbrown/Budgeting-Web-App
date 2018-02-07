@@ -74,6 +74,7 @@ This budgeting web app is an online tool designed to help users create and manag
 | -------------------- | --------- | --- |
 | ID | Int | PK | 
 | MainCategoryID | Int | FK |
+| BudgetID | Int | FK
 | Name | String | |
 | Allotment | Money | |
 | Actual | Money | |
